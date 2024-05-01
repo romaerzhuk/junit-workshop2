@@ -45,7 +45,8 @@ class EmployeeControllerIntegrationTest {
                 .build()), total)
         ).when(service).find(page, filter);
 
-        mvc.perform(MockMvcRequestBuilders.get(EmployeeController.URL + "?page={page}&size={size}", page.getPageNumber(), page.getPageSize()))
+        mvc.perform(MockMvcRequestBuilders.get(EmployeeController.URL + "?page={page}&size={size}&name={name}",
+                        page.getPageNumber(), page.getPageSize(), filter.name()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data[0].id", is((int) id)))
                 .andExpect(jsonPath("$.data[0].name", is(name)))

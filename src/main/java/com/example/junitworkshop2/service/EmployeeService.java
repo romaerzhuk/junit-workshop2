@@ -4,12 +4,14 @@ import com.example.junitworkshop2.controller.EmployeeDto;
 import com.example.junitworkshop2.controller.EmployeeFilter;
 import com.example.junitworkshop2.controller.GenericPage;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 /**
  * Сервис сотрудников.
  *
  * @author Roman_Erzhukov
  */
+@Service
 public class EmployeeService {
     /**
      * Ищет сотрудников по параметрам фильтра.

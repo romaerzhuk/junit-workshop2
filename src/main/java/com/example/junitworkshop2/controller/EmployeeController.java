@@ -1,21 +1,24 @@
 package com.example.junitworkshop2.controller;
 
+import com.example.junitworkshop2.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * Сотрудники.
  *
  * @author Roman_Erzhukov
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(EmployeeController.URL)
 public class EmployeeController {
     public static final String URL = "/employees";
+
+    private final EmployeeService service;
 
     /**
      * Возвращает сотрудников по фильтру.
@@ -26,9 +29,6 @@ public class EmployeeController {
      */
     @GetMapping
     public GenericPage<EmployeeDto> getPage(EmployeeFilter filter, Pageable pageable) {
-        return new GenericPage<>(List.of(EmployeeDto.builder()
-                .id(1L)
-                .name("simple-name2")
-                .build()), 3);
+        return service.find(pageable, filter);
     }
 }
