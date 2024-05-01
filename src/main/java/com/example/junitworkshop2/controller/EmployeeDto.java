@@ -10,7 +10,7 @@ import java.time.LocalDate;
  *
  * @param id        идентификатор
  * @param name      имя сотрудника
- * @param startDate дата зачисления
+ * @param startDate дата трудоустройства
  * @param endDate   дата увольнения
  * @param salary    зарплата
  * @author Roman_Erzhukov

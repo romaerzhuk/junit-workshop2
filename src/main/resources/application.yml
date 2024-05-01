@@ -19,3 +19,15 @@ spring:
     show-sql: false
     open-in-view: false
     generate-ddl: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "test"
+  liquibase:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=junit
+    user: junit_user
+    password: junit_psw
+    change-log: classpath:db/changelog/database-changelog.xml

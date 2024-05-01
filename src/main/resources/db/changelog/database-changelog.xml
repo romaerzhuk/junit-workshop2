@@ -1,0 +1,17 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="create table employee" author="Roman Erzhukov">
+        <createTable tableName="employee" remarks="Сотрудник">
+            <column name="id" type="bigint" remarks="Идентификатор">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(40)" remarks="Имя сотрудника"/>
+            <column name="start_date" type="date" remarks="Дата трудоустройства"/>
+            <column name="end_date" type="date" remarks="Дата увольнения"/>
+            <column name="salary" type="numeric(19,2)" remarks="Зарплата"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
