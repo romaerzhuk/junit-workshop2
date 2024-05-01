@@ -1,22 +1,31 @@
 ## JUnit workshop 2
 
-1. Unit-тесты:
+1. Пирамида тестирования
+    * [Хабр > Всё, что вы хотели знать про пирамиду тестирования, но не знали как спросить](https://habr.com/ru/articles/788212/)
+    * [Хекслет > Пирамида тестирования](https://ru.hexlet.io/courses/testing-phase/lessons/testing-pyramid/theory_unit)
+    * [JavaRush > Java Unit Testing: методики, понятия, практика](https://javarush.com/groups/posts/2500-vse-o-unit-testing-metodiki-ponjatija-praktika)
+    * [QA_Bible > Пирамида / уровни тестирования](https://vladislaveremeev.gitbook.io/qa_bible/vidy-metody-urovni-testirovaniya/piramida-urovni-testirovaniya-test-pyramid-testing-levels)
+    * [Test Engineer > Пирамида тестирования](https://testengineer.ru/testing-pyramid/)
+2. Методы тестирования:
+    * [QA_Bible > Методы тестирования (White/Black/Grey Box)](https://vladislaveremeev.gitbook.io/qa_bible/vidy-metody-urovni-testirovaniya/metody-testirovaniya-white-black-grey-box)
+    * [Test Engineer > Тестирование белого ящика vs тестирование черного ящика](https://testengineer.ru/testirovanie-belogo-chernogo-yashchika/)
+3. Unit-тесты:
     * быстрый запуск и устранение ошибок;
     * уверенность: проверка всех деталей алгоритмов;
     * рефакторинг: удаление избыточного и грязного кода.
-2. Фреймворки:
+4. Фреймворки для Unit-тестирования:
     1. Базовые фреймворки Unit-тестирования:
         * JUnit;
         * TestNG.
     2. AssertJ;
     3. Hamcrest;
     4. SpringBootTest.
-3. Mockito, лёгкое тестирование на моках:
+5. Mockito, лёгкое тестирование на моках:
     * Mockito;
     * PowerMock;
     * Easymock;
     * JMockit.
-4. Собственный набор утилит: test-util
+6. Собственный набор утилит: test-util
     * `UidExtension`: `uid()`, `uidL()`, `uidS()`, `uidDec()`, `newLocalDate()`,... — уникальные значения для тестов.
     * `PropertiesMatcher`, сравнивает JavaBean с ожидаемыми значениями по его свойствам. Совместим с Hamcrest и AssertJ.
     * `MethodSourceHelper`, предоставляет вспомогательные методы для параметризации.
@@ -75,4 +84,3 @@
 34. `EmployeeSpecificationsIntegrationTest` доработаны тесты `getByMinStartDate`, `getByMaxStartDate`. Тесты падают: нет реализации.
 35. `EmployeeSpecifications` добавлена реализация `getByMinStartDate`, `getByMaxStartDate`.
 36. `SpecificationHelper`: `varargs` вместо `Iterable`. Mockito мокает и `final` методы.
-37. 
