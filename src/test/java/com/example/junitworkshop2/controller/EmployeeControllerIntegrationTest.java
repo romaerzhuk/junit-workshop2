@@ -12,7 +12,6 @@ import com.example.junitworkshop2.service.EmployeeService;
 import com.example.junitworkshop2.test.annotation.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -29,7 +28,7 @@ class EmployeeControllerIntegrationTest {
     @Autowired
     MockMvc mvc;
 
-    @MockBean
+    @Autowired
     EmployeeService service;
 
     @Test
