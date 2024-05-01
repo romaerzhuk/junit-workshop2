@@ -6,4 +6,16 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=junit
     username: junit_user
     password: junit_psw
-
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        use_sql_comments: false
+        format_sql: false
+        criteria.literal_handling_mode: BIND
+    hibernate:
+      ddl-auto: none
+    default_schema: junit
+    show-sql: false
+    open-in-view: false
+    generate-ddl: false
