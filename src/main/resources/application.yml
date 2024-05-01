@@ -1,2 +1,9 @@
 spring:
-  application.name=junit-workshop2
+  application.name: junit-workshop2
+  liquibase.enabled: false
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=junit
+    username: junit_user
+    password: junit_psw
+
