@@ -1,6 +1,8 @@
 package com.example.junitworkshop2.test.annotation;
 
+import com.example.junitworkshop2.test.extension.UidExtension;
 import com.example.junitworkshop2.test.init.PostgresTestContainer;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,6 +21,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @SpringBootTest
 @AutoConfigureMockMvc
+@ExtendWith(UidExtension.class)
 @ContextConfiguration(initializers = PostgresTestContainer.Initializer.class)
 public @interface IntegrationTest {
 }

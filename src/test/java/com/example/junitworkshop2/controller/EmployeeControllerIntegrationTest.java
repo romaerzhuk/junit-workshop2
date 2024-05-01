@@ -1,5 +1,7 @@
 package com.example.junitworkshop2.controller;
 
+import static com.example.junitworkshop2.test.extension.UidExtension.uid;
+import static com.example.junitworkshop2.test.extension.UidExtension.uidS;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.doReturn;
@@ -32,19 +34,26 @@ class EmployeeControllerIntegrationTest {
 
     @Test
     void getPage() throws Exception {
+        long id = uid();
+        String name = uidS();
+        long total = uid();
+        var page = PageRequest.of(uid(), uid());
+        var filter = newEmployeeFilter();
         doReturn(new GenericPage<>(List.of(EmployeeDto.builder()
-                .id(1L)
-                .name("simple-name2")
-                .build()), 3)
-        ).when(service).find(PageRequest.of(1, 2), EmployeeFilter.builder()
-                .name("simple")
-                .build());
+                .id(id)
+                .name(name)
+                .build()), total)
+        ).when(service).find(page, filter);
 
-        mvc.perform(MockMvcRequestBuilders.get(EmployeeController.URL + "?page=1&size=2"))
+        mvc.perform(MockMvcRequestBuilders.get(EmployeeController.URL + "?page={page}&size={size}", page.getPageNumber(), page.getPageSize()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data[0].id", is(1)))
-                .andExpect(jsonPath("$.data[0].name", is("simple-name2")))
+                .andExpect(jsonPath("$.data[0].id", is((int) id)))
+                .andExpect(jsonPath("$.data[0].name", is(name)))
                 .andExpect(jsonPath("$.data", hasSize(1)))
-                .andExpect(jsonPath("$.total", is(3)));
+                .andExpect(jsonPath("$.total", is((int) total)));
+    }
+
+    EmployeeFilter newEmployeeFilter() {
+        return EmployeeFilter.builder().name(uidS()).build();
     }
 }
