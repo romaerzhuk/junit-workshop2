@@ -22,13 +22,13 @@ public class EmployeeController {
      *
      * @param filter   фильтр поиска сотрудников
      * @param pageable параметры страницы
-     * @return сотрудников
+     * @return страницу сотрудников
      */
     @GetMapping
     public GenericPage<EmployeeDto> getPage(EmployeeFilter filter, Pageable pageable) {
         return new GenericPage<>(List.of(EmployeeDto.builder()
-                .id(2L)
-                .name("simple-name")
-                .build()), 1);
+                .id(1L)
+                .name("simple-name2")
+                .build()), 3);
     }
 }
