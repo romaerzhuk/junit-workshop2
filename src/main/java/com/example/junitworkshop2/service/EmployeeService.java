@@ -28,7 +28,7 @@ public class EmployeeService {
      * @return страницу сотрудников
      */
     public GenericPage<EmployeeDto> find(Pageable pageable, EmployeeFilter filter) {
-        Page<EmployeeDto> page = repository.findAll(specifications.findByFilter(filter), pageable)
+        Page<EmployeeDto> page = repository.findAll(specifications.getByFilter(filter), pageable)
                 .map(this::mapToDto);
         return new GenericPage<>(page.getContent(), page.getTotalElements());
     }

@@ -60,7 +60,7 @@ class EmployeeServiceTest {
         var pageable = PageRequest.of(number, size);
         var filter = newEmployeeFilter();
         Specification<Employee> spec = mock(Specification.class);
-        doReturn(spec).when(specifications).findByFilter(filter);
+        doReturn(spec).when(specifications).getByFilter(filter);
         Employee[] employee = {newValueEntity(), newValueEntity()};
         long total = uid();
         doReturn(new PageImpl<>(List.of(employee), pageable, total)).when(repository).findAll(spec, pageable);
