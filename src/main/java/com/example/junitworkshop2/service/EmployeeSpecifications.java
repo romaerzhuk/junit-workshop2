@@ -2,19 +2,24 @@ package com.example.junitworkshop2.service;
 
 import com.example.junitworkshop2.controller.EmployeeFilter;
 import com.google.common.annotations.VisibleForTesting;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Спецификации поиска сотрудников.
  *
  * @author Roman_Erzhukov
  */
+@RequiredArgsConstructor
 @Component
 public class EmployeeSpecifications {
+    private final SpecificationHelper helper;
+
     /**
      * Возвращает спецификацию поиска сотрудника по фильтру.
      *
@@ -22,10 +27,11 @@ public class EmployeeSpecifications {
      * @return {@link Specification}
      */
     public Specification<Employee> getByFilter(EmployeeFilter filter) {
-        return getByIdIn(filter.ids())
-                .and(getByName(filter.name()))
-                .and(getByMinStartDate(filter.minStartDate()))
-                .and(getByMaxStartDate(filter.maxStartDate()));
+        return helper.and(List.of(
+                getByIdIn(filter.ids()),
+                getByName(filter.name()),
+                getByMinStartDate(filter.minStartDate()),
+                getByMaxStartDate(filter.maxStartDate())));
     }
 
     @VisibleForTesting
