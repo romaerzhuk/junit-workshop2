@@ -35,6 +35,12 @@ public class EmployeeService {
 
     @VisibleForTesting
     EmployeeDto mapToDto(Employee entity) {
-        throw new UnsupportedOperationException();
+        return EmployeeDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .startDate(entity.getStartDate())
+                .endDate(entity.getEndDate())
+                .salary(entity.getSalary())
+                .build();
     }
 }
