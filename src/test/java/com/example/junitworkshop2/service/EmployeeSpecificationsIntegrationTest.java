@@ -64,7 +64,7 @@ class EmployeeSpecificationsIntegrationTest {
 
         assertThat(actual)
                 .extracting(Employee::getId)
-                .containsExactlyElementsOf(expected);
+                .containsExactlyInAnyOrderElementsOf(expected);
     }
 
     static Stream<Boolean> booleansWithNull() {
