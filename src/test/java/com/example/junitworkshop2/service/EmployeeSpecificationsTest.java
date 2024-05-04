@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 
 import com.example.junitworkshop2.controller.EmployeeFilter;
 import com.example.junitworkshop2.test.extension.UidExtension;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +19,6 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
 
@@ -52,18 +52,18 @@ class EmployeeSpecificationsTest {
                 .minStartDate(minStartDate)
                 .maxStartDate(maxStartDate)
                 .build();
-        List<Specification<Employee>> specs = IntStream.range(0, 5)
+        Specification<Employee>[] spec = IntStream.range(0, 5)
                 .mapToObj(i -> newSpecification())
-                .toList();
-        doReturn(specs.get(1)).when(subj).getByIdIn(ids);
-        doReturn(specs.get(2)).when(subj).getByName(name);
-        doReturn(specs.get(3)).when(subj).getByMinStartDate(minStartDate);
-        doReturn(specs.get(4)).when(subj).getByMaxStartDate(maxStartDate);
-        doReturn(specs.get(0)).when(helper).and(specs.subList(1, specs.size()));
+                .toArray(Specification[]::new);
+        doReturn(spec[1]).when(subj).getByIdIn(ids);
+        doReturn(spec[2]).when(subj).getByName(name);
+        doReturn(spec[3]).when(subj).getByMinStartDate(minStartDate);
+        doReturn(spec[4]).when(subj).getByMaxStartDate(maxStartDate);
+        doReturn(spec[0]).when(helper).and(ArrayUtils.remove(spec, 0));
 
         Specification<Employee> actual = subj.getByFilter(filter);
 
-        assertThat(actual).isEqualTo(specs.get(0));
+        assertThat(actual).isEqualTo(spec[0]);
     }
 
     Specification<Employee> newSpecification() {

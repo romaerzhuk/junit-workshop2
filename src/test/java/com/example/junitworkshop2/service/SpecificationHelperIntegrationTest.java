@@ -1,6 +1,5 @@
 package com.example.junitworkshop2.service;
 
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.junitworkshop2.test.annotation.IntegrationTest;
@@ -51,7 +50,7 @@ class SpecificationHelperIntegrationTest implements MethodSourceHelper {
         Long[] expected = Stream.of(id)
                 .filter(i -> first.contains(i) && second.contains(i))
                 .toArray(Long[]::new);
-        Specification<Employee> specification = subj.and(asList(findByIds(first), null, findByIds(null), findByIds(second)));
+        Specification<Employee> specification = subj.and(findByIds(first), null, findByIds(null), findByIds(second));
 
         List<Employee> actual = repository.findAll(specification);
 
@@ -71,7 +70,7 @@ class SpecificationHelperIntegrationTest implements MethodSourceHelper {
         Long[] expected = Stream.of(id)
                 .filter(i -> first.contains(i) || second.contains(i))
                 .toArray(Long[]::new);
-        Specification<Employee> specification = subj.or(asList(findByIds(first), null, findByIds(null), findByIds(second)));
+        Specification<Employee> specification = subj.or(findByIds(first), null, findByIds(null), findByIds(second));
 
         List<Employee> actual = repository.findAll(specification);
 

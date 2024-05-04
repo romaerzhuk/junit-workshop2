@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Спецификации поиска сотрудников.
@@ -27,11 +26,11 @@ public class EmployeeSpecifications {
      * @return {@link Specification}
      */
     public Specification<Employee> getByFilter(EmployeeFilter filter) {
-        return helper.and(List.of(
+        return helper.and(
                 getByIdIn(filter.ids()),
                 getByName(filter.name()),
                 getByMinStartDate(filter.minStartDate()),
-                getByMaxStartDate(filter.maxStartDate())));
+                getByMaxStartDate(filter.maxStartDate()));
     }
 
     @VisibleForTesting
