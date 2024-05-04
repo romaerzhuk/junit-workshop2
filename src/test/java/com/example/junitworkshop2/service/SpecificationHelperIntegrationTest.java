@@ -4,9 +4,9 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.junitworkshop2.test.annotation.IntegrationTest;
+import com.example.junitworkshop2.test.junit.MethodSourceHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  * @author Roman_Erzhukov
  */
 @IntegrationTest
-class SpecificationHelperIntegrationTest {
+class SpecificationHelperIntegrationTest implements MethodSourceHelper {
     @Autowired
     SpecificationHelper subj;
 
@@ -83,13 +83,6 @@ class SpecificationHelperIntegrationTest {
     Specification<Employee> findByIds(List<Long> ids) {
         return (root, query, cb) ->
                 ids == null ? null : root.get(Employee_.id).in(ids);
-    }
-
-    @MethodSource
-    static Stream<Arguments> booleans2() {
-        return Stream.of(false, true)
-                .flatMap(a -> Stream.of(false, true)
-                        .map(b -> Arguments.of(a, b)));
     }
 
     Employee newEntity() {
