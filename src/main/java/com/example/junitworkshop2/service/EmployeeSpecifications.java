@@ -46,11 +46,21 @@ public class EmployeeSpecifications {
 
     @VisibleForTesting
     Specification<Employee> getByMinStartDate(LocalDate date) {
-        throw new UnsupportedOperationException();
+        return (root, query, cb) -> {
+            if (date == null) {
+                return null;
+            }
+            return cb.greaterThanOrEqualTo(root.get(Employee_.startDate), date);
+        };
     }
 
     @VisibleForTesting
     Specification<Employee> getByMaxStartDate(LocalDate date) {
-        throw new UnsupportedOperationException();
+        return (root, query, cb) -> {
+            if (date == null) {
+                return null;
+            }
+            return cb.lessThanOrEqualTo(root.get(Employee_.startDate), date);
+        };
     }
 }
