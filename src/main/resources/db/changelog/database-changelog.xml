@@ -14,4 +14,8 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="create sequence employee_id_seq" author="Roman Erzhukov">
+        <createSequence sequenceName="employee_id_seq" incrementBy="100"/>
+    </changeSet>
+
 </databaseChangeLog>
