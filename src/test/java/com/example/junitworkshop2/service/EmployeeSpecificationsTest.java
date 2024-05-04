@@ -12,6 +12,8 @@ import com.example.junitworkshop2.controller.EmployeeFilter;
 import com.example.junitworkshop2.test.extension.UidExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,7 +34,11 @@ import java.util.stream.IntStream;
 @SuppressWarnings("unchecked")
 class EmployeeSpecificationsTest {
     @Spy
+    @InjectMocks
     EmployeeSpecifications subj;
+
+    @Mock
+    SpecificationHelper helper;
 
     @Test
     void getByFilter() {
@@ -46,16 +52,14 @@ class EmployeeSpecificationsTest {
                 .minStartDate(minStartDate)
                 .maxStartDate(maxStartDate)
                 .build();
-        List<Specification<Employee>> specs = IntStream.range(0, 7)
+        List<Specification<Employee>> specs = IntStream.range(0, 5)
                 .mapToObj(i -> newSpecification())
                 .toList();
         doReturn(specs.get(1)).when(subj).getByIdIn(ids);
         doReturn(specs.get(2)).when(subj).getByName(name);
-        doReturn(specs.get(3)).when(specs.get(1)).and(specs.get(2));
-        doReturn(specs.get(4)).when(subj).getByMinStartDate(minStartDate);
-        doReturn(specs.get(5)).when(specs.get(3)).and(specs.get(4));
-        doReturn(specs.get(6)).when(subj).getByMaxStartDate(maxStartDate);
-        doReturn(specs.get(0)).when(specs.get(5)).and(specs.get(6));
+        doReturn(specs.get(3)).when(subj).getByMinStartDate(minStartDate);
+        doReturn(specs.get(4)).when(subj).getByMaxStartDate(maxStartDate);
+        doReturn(specs.get(0)).when(helper).and(specs.subList(1, specs.size()));
 
         Specification<Employee> actual = subj.getByFilter(filter);
 
