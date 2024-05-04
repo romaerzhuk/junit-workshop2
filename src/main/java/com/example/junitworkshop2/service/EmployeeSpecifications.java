@@ -5,6 +5,7 @@ import com.google.common.annotations.VisibleForTesting;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 /**
@@ -33,5 +34,15 @@ public class EmployeeSpecifications {
     @VisibleForTesting
     Specification<Employee> getByName(String name) {
         return SpecificationUtils.spec(name, Employee_.name);
+    }
+
+    @VisibleForTesting
+    Specification<Employee> getByMinStartDate(LocalDate date) {
+        throw new UnsupportedOperationException();
+    }
+
+    @VisibleForTesting
+    Specification<Employee> getByMaxStartDate(LocalDate date) {
+        throw new UnsupportedOperationException();
     }
 }

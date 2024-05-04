@@ -5,7 +5,9 @@ import static com.example.junitworkshop2.test.extension.UidExtension.uidS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.junitworkshop2.test.annotation.IntegrationTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -91,6 +93,16 @@ class EmployeeSpecificationsIntegrationTest {
         assertThat(actual)
                 .extracting(Employee::getId)
                 .containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    void getByMinStartDate() {
+        Assertions.fail();
+    }
+
+    @Test
+    void getByMaxStartDate() {
+        Assertions.fail();
     }
 
     Employee newEmployee() {
