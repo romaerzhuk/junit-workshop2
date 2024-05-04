@@ -25,11 +25,11 @@ public class EmployeeSpecifications {
 
     @VisibleForTesting
     Specification<Employee> getById(Long id) {
-        throw new UnsupportedOperationException();
+        return SpecificationUtils.spec(id, Employee_.id);
     }
 
     @VisibleForTesting
     Specification<Employee> getByName(String name) {
-        throw new UnsupportedOperationException();
+        return SpecificationUtils.spec(name, Employee_.name);
     }
 }
