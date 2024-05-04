@@ -21,7 +21,6 @@ public class EmployeeSpecifications {
      * @return {@link Specification}
      */
     public Specification<Employee> getByFilter(EmployeeFilter filter) {
-        if (true) throw new UnsupportedOperationException();
         return getByIdIn(filter.ids())
                 .and(getByName(filter.name()));
     }
