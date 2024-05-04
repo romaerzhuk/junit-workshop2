@@ -28,7 +28,6 @@ public class EmployeeSpecifications {
 
     @VisibleForTesting
     Specification<Employee> getByIdIn(Collection<Long> id) {
-        if (true) throw new UnsupportedOperationException();
         return SpecificationUtils.spec(id, Employee_.id);
     }
 
