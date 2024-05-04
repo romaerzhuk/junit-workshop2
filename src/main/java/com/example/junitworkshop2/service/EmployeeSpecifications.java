@@ -23,7 +23,9 @@ public class EmployeeSpecifications {
      */
     public Specification<Employee> getByFilter(EmployeeFilter filter) {
         return getByIdIn(filter.ids())
-                .and(getByName(filter.name()));
+                .and(getByName(filter.name()))
+                .and(getByMinStartDate(filter.minStartDate()))
+                .and(getByMaxStartDate(filter.maxStartDate()));
     }
 
     @VisibleForTesting
