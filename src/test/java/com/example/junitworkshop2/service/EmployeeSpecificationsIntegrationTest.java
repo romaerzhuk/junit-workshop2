@@ -1,16 +1,15 @@
 package com.example.junitworkshop2.service;
 
+import static com.example.junitworkshop2.test.extension.UidExtension.newLocalDate;
 import static com.example.junitworkshop2.test.extension.UidExtension.uid;
 import static com.example.junitworkshop2.test.extension.UidExtension.uidS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.junitworkshop2.test.annotation.IntegrationTest;
-import org.junit.jupiter.api.Assertions;
+import com.example.junitworkshop2.test.junit.MethodSourceHelper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.event.annotation.AfterTestClass;
 import org.springframework.transaction.support.TransactionOperations;
@@ -27,7 +26,7 @@ import java.util.stream.Stream;
  * @author Roman_Erzhukov
  */
 @IntegrationTest
-class EmployeeSpecificationsIntegrationTest {
+class EmployeeSpecificationsIntegrationTest implements MethodSourceHelper {
     @Autowired
     EmployeeSpecifications subj;
 
@@ -69,12 +68,8 @@ class EmployeeSpecificationsIntegrationTest {
                 .containsExactlyInAnyOrderElementsOf(expected);
     }
 
-    static Stream<Boolean> booleansWithNull() {
-        return Stream.of(null, false, true);
-    }
-
     @ParameterizedTest
-    @ValueSource(booleans = {false, true})
+    @MethodSource("booleans")
     void getByName(boolean hasName) {
         String[] name = {uidS(), uidS(), uidS()};
         int index = uid(name.length);
@@ -95,14 +90,50 @@ class EmployeeSpecificationsIntegrationTest {
                 .containsExactlyInAnyOrderElementsOf(expected);
     }
 
-    @Test
-    void getByMinStartDate() {
-        Assertions.fail();
+    @ParameterizedTest
+    @MethodSource("booleans")
+    void getByMinStartDate(boolean hasDate) {
+        var date = newLocalDate();
+        Long[] id = transactionExecute(() -> Stream.of(
+                        newEmployee(it -> it.setStartDate(date.minusDays(uid()))), // 0
+                        newEmployee(it -> it.setStartDate(date.minusDays(1))), // 1
+                        newEmployee(it -> it.setStartDate(date)), // 2
+                        newEmployee(it -> it.setStartDate(date.plusDays(1))), // 3
+                        newEmployee(it -> it.setStartDate(date.plusDays(uid()))), // 4
+                        newEmployee(it -> it.setStartDate(null)), // 5
+                        newEmployee(it -> it.setStartDate(date)) // 6
+                ).map(Employee::getId)
+                .toArray(Long[]::new));
+        List<Long> expected = hasDate ? List.of(id[2], id[3], id[4], id[6]) : List.of(id);
+
+        List<Employee> actual = repository.findAll(subj.getByMinStartDate(hasDate ? date : null));
+
+        assertThat(actual)
+                .extracting(Employee::getId)
+                .containsExactlyElementsOf(expected);
     }
 
-    @Test
-    void getByMaxStartDate() {
-        Assertions.fail();
+    @ParameterizedTest
+    @MethodSource("booleans")
+    void getByMaxStartDate(boolean hasDate) {
+        var date = newLocalDate();
+        Long[] id = transactionExecute(() -> Stream.of(
+                        newEmployee(it -> it.setStartDate(date.minusDays(uid()))), // 0
+                        newEmployee(it -> it.setStartDate(date.minusDays(1))), // 1
+                        newEmployee(it -> it.setStartDate(date)), // 2
+                        newEmployee(it -> it.setStartDate(date.plusDays(1))), // 3
+                        newEmployee(it -> it.setStartDate(date.plusDays(uid()))), // 4
+                        newEmployee(it -> it.setStartDate(null)), // 5
+                        newEmployee(it -> it.setStartDate(date)) // 6
+                ).map(Employee::getId)
+                .toArray(Long[]::new));
+        List<Long> expected = hasDate ? List.of(id[0], id[1], id[2], id[6]) : List.of(id);
+
+        List<Employee> actual = repository.findAll(subj.getByMaxStartDate(hasDate ? date : null));
+
+        assertThat(actual)
+                .extracting(Employee::getId)
+                .containsExactlyElementsOf(expected);
     }
 
     Employee newEmployee() {
