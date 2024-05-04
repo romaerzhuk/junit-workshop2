@@ -49,7 +49,7 @@ class EmployeeSpecificationsIntegrationTest {
                 ).map(Employee::getId)
                 .toArray(Long[]::new));
         int index = uid(id.length);
-        List<Long> expected = hasId ? List.of(id[index]) : List.of();
+        List<Long> expected = hasId ? List.of(id[index]) : List.of(id);
 
         List<Employee> actual = repository.findAll(subj.getById(hasId ? id[index] : null));
 
@@ -70,7 +70,7 @@ class EmployeeSpecificationsIntegrationTest {
                 ).map(Employee::getId)
                 .toArray(Long[]::new));
         int index = uid(name.length);
-        List<Long> expected = hasName ? List.of(id[index]) : List.of();
+        List<Long> expected = hasName ? List.of(id[index]) : List.of(id);
 
         List<Employee> actual = repository.findAll(subj.getByName(hasName ? name[index] : null));
 
