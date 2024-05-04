@@ -1,6 +1,7 @@
 package com.example.junitworkshop2.service;
 
 import static com.example.junitworkshop2.test.extension.UidExtension.uid;
+import static com.example.junitworkshop2.test.extension.UidExtension.uidL;
 import static com.example.junitworkshop2.test.extension.UidExtension.uidS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
@@ -15,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * EmployeeSpecificationsTest.
@@ -32,14 +34,14 @@ class EmployeeSpecificationsTest {
 
     @Test
     void getByFilter() {
-        long id = uid();
+        Set<Long> ids = Set.of(uidL());
         String name = uidS();
         var filter = EmployeeFilter.builder()
-                .id(id)
+                .ids(ids)
                 .name(name)
                 .build();
         List<Specification<Employee>> specs = List.of(newSpecification(), newSpecification(), newSpecification());
-        doReturn(specs.get(1)).when(subj).getById(id);
+        doReturn(specs.get(1)).when(subj).getByIdIn(ids);
         doReturn(specs.get(2)).when(subj).getByName(name);
         doReturn(specs.get(0)).when(specs.get(1)).and(specs.get(2));
 

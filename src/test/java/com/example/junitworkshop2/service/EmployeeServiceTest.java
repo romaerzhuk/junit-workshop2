@@ -30,6 +30,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -120,7 +121,7 @@ class EmployeeServiceTest {
     }
 
     EmployeeFilter newEmployeeFilter() {
-        return new EmployeeFilter(uidL(), uidS());
+        return EmployeeFilter.builder().ids(Set.of(uidL())).build();
     }
 
     Employee newValueEntity() {

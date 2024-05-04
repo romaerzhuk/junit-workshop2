@@ -7,12 +7,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.example.junitworkshop2.test.annotation.IntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.event.annotation.AfterTestClass;
 import org.springframework.transaction.support.TransactionOperations;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -40,22 +42,33 @@ class EmployeeSpecificationsIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = {false, true})
-    void getById(boolean hasId) {
+    @MethodSource("booleansWithNull")
+    void getByIdIn(Boolean empty) {
         Long[] id = transactionExecute(() -> Stream.of(
+                        newEmployee(),
                         newEmployee(),
                         newEmployee(),
                         newEmployee()
                 ).map(Employee::getId)
                 .toArray(Long[]::new));
-        int index = uid(id.length);
-        List<Long> expected = hasId ? List.of(id[index]) : List.of(id);
+        int[] index = {uid(id.length), uid(id.length)};
+        List<Long> expected = Boolean.FALSE.equals(empty) ? List.of(id[index[0]], id[index[1]]) : List.of(id);
+        Set<Long> ids;
+        if (empty == null) {
+            ids = null;
+        } else {
+            ids = empty ? Set.of() : Set.of(id[0] - uid(), id[index[0]], id[index[1]]);
+        }
 
-        List<Employee> actual = repository.findAll(subj.getById(hasId ? id[index] : null));
+        List<Employee> actual = repository.findAll(subj.getByIdIn(ids));
 
         assertThat(actual)
                 .extracting(Employee::getId)
                 .containsExactlyElementsOf(expected);
+    }
+
+    static Stream<Boolean> booleansWithNull() {
+        return Stream.of(null, false, true);
     }
 
     @ParameterizedTest

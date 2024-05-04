@@ -5,6 +5,8 @@ import com.google.common.annotations.VisibleForTesting;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+
 /**
  * Спецификации поиска сотрудников.
  *
@@ -19,12 +21,14 @@ public class EmployeeSpecifications {
      * @return {@link Specification}
      */
     public Specification<Employee> getByFilter(EmployeeFilter filter) {
-        return getById(filter.id())
+        if (true) throw new UnsupportedOperationException();
+        return getByIdIn(filter.ids())
                 .and(getByName(filter.name()));
     }
 
     @VisibleForTesting
-    Specification<Employee> getById(Long id) {
+    Specification<Employee> getByIdIn(Collection<Long> id) {
+        if (true) throw new UnsupportedOperationException();
         return SpecificationUtils.spec(id, Employee_.id);
     }
 
