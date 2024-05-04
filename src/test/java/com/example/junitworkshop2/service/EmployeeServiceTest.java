@@ -99,8 +99,8 @@ class EmployeeServiceTest {
         // Левый аргумент: "id", "name", "startDate", "endDate", "salary" - всего лишь подсказка.
         assertThat(actual).is(matching(matcher -> matcher
                 .add("id", actual.id(), entity.getId())
-                .add("name", actual.name(), "anyName") // тут специально ошибка, чтоб показать, как ведёт себя PropertiesMatcher при падении.
-                .add("startDate", actual.startDate(), newLocalDate()) // тут специально ошибка.
+                .add("name", actual.name(), entity.getName())
+                .add("startDate", actual.startDate(), entity.getStartDate())
                 .add("endDate", actual.endDate(), entity.getEndDate())
                 .add("salary", actual.salary(), entity.getSalary())
         ));
