@@ -75,21 +75,22 @@ class EmployeeSpecificationsIntegrationTest {
     @ValueSource(booleans = {false, true})
     void getByName(boolean hasName) {
         String[] name = {uidS(), uidS(), uidS()};
+        int index = uid(name.length);
         Long[] id = transactionExecute(() -> Stream.of(
                         newEmployee(it -> it.setName(name[0])),
                         newEmployee(it -> it.setName(name[1])),
                         newEmployee(it -> it.setName(name[2])),
+                        newEmployee(it -> it.setName(name[index])),
                         newEmployee(it -> it.setName(null))
                 ).map(Employee::getId)
                 .toArray(Long[]::new));
-        int index = uid(name.length);
-        List<Long> expected = hasName ? List.of(id[index]) : List.of(id);
+        List<Long> expected = hasName ? List.of(id[index], id[3]) : List.of(id);
 
         List<Employee> actual = repository.findAll(subj.getByName(hasName ? name[index] : null));
 
         assertThat(actual)
                 .extracting(Employee::getId)
-                .containsExactlyElementsOf(expected);
+                .containsExactlyInAnyOrderElementsOf(expected);
     }
 
     Employee newEmployee() {
